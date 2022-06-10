@@ -1,11 +1,17 @@
-import categories from './categories.json'
-import Categories from './components/categories/categories'
+import { Routes, Route } from 'react-router-dom'
+
+import Home from './routes/home/home'
+import Navigation from './routes/navigation/navigation'
+import SignIn from './routes/sign-in/sign-in'
 
 const App = () => {
   return (
-    <div className='categories-container'>
-      <Categories categories={categories} />
-    </div>
+    <Routes>
+      <Route path='/' element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path='sign-in' element={<SignIn />} />
+      </Route>
+    </Routes>
   )
 }
 
