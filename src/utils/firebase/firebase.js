@@ -64,12 +64,8 @@ export const getCategoriesAndDocuments = async () => {
   const q = query(collectionRef)
 
   const querySnapShot = await getDocs(q)
-  const categoryMAp = querySnapShot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data()
-    acc[title.toLowerCase()] = items
-    return acc
-  }, {})
-  return categoryMAp
+  // const categoryMAp =
+  return querySnapShot.docs.map(docSnapshot => docSnapshot.data())
 }
 
 export const createUserDocumentFromAuth = async (
@@ -116,3 +112,16 @@ export const signOutUser = () => signOut(auth)
 
 export const onAuthStateChangedListener = callback =>
   onAuthStateChanged(auth, callback)
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth => {
+        unsubscribe()
+        resolve(userAuth)
+      },
+      reject)
+    )
+  })
+}
